@@ -1,0 +1,10 @@
+{
+  "auth": {
+     "secret": "auth_secret",
+     "key": "auth_key”
+  },
+  "home": {
+    "ip": "0.0.0.0",
+    "soundBarPort": "0000"
+  }
+}
