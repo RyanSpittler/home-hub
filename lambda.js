@@ -1,16 +1,6 @@
 var config = require('./config.json');
-var weather = require('./lib/weather.js');
-
-// example event payload from slack slash command
-// token=asdfghjklzxcvbnm
-// team_id=T0001
-// team_domain=example
-// channel_id=C2147483705
-// channel_name=test
-// user_id=U2147483697
-// user_name=Steve
-// command=/weather
-// text=94070
+// var weather = require('./lib/weather.js');
+var soundBar = require("./lib/soundBar.js");
 
 // Entrypoint for AWS Lambda
 exports.handler = function(event, context) {
@@ -18,9 +8,9 @@ exports.handler = function(event, context) {
 
   console.log('[EVENT] ', event);
 
-  // verify request came from slack - could also check that event.command === /weather
-  if(event.token !== config.slashCommandToken) {
-    return context.fail('Unauthorized request. Check config.slashCommandToken.');
+  // basic auth
+  if(!isValidAuth(event.secret, event.key)) {
+    return context.fail('Unauthorized request. Check authentication credentials.');
   }
 
   // validate zip code
@@ -39,4 +29,8 @@ exports.handler = function(event, context) {
 
 function isValidZip(zip) {
   return zip && zip.length === 5 && !isNaN(zip);
+}
+
+function isValidAuth(secret, key) {
+  return secret && key && secret === config.auth.secret && key === config.auth.key;
 }
