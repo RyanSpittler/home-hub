@@ -1,3 +1,5 @@
 {
-  "text": "90210"
+  "text": "Bluetooth",
+  "secret": "auth_secret",
+  "key": "auth_key"
 }
